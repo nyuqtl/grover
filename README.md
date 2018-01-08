@@ -9,3 +9,4 @@ This is a draft of program that is used for simulation of quantum algorithms, he
 * Parallel processing, `O(2^n^2^n)` to `O(2^n^(2^n)/k)` where `k` is number of available threads
 * RK4 integrator (and having it easy to add more integrators, just look up [solvers.py](./solvers.py))
 * Easy to change Hamiltonian, simply write your own Hamiltonian evaluation function, example in [run.py](./run.py#L15-L32)
+* Possibility of running the simulation numerically with graph updated in real-time (no need to wait until entire simulation is done to generate animated plot)
