@@ -56,6 +56,6 @@ def update(t):
 
 anim = FuncAnimation(fig, update, frames=lin, interval=50, repeat=False)
 # if you want to save as gif
-anim.save('example.gif', dpi=130, writer='imagemagick')
+#anim.save('example.gif', dpi=130, writer='imagemagick')
 # if you want to watch it evolve live
-#plt.show()
+plt.show()
