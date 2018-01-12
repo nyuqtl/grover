@@ -7,28 +7,24 @@ from solvers import RK4step, FEstep
 from qm import stepEvolution, decimalToBinary, plot
 from matplotlib.animation import FuncAnimation
 
-threads = 2
-target = [7]
-N = 4
+threads = 1
+target = [2, 7]
+N = 3
 
 # Hamiltonian
 def H(phik, beg, end, N, D, target) :
     phim = np.zeros(end - beg, np.complex64)
     for m in range(beg, end) :
-        res = 1.
-        # Grover
+        # source states Hadamard
+        Ps = 0.
         if m == 0 :
-            res = 0.
-        s1 = 0.
-        mbin = decimalToBinary(m, N)
-        for n in range(D) :
-            nbin = decimalToBinary(n, N)
-            # Oracle
-            orc = 1.
-            if n in target :
-                orc = 0.
-            s1 += np.power(-1., np.dot(mbin, nbin))*orc*phik[n]
-        phim[m - beg] = res*(s1)*-1j
+            Ps = 1./np.power(D, 2.0)
+        Pt = 0.
+        if m in target :
+            for n in range(0, D) :
+                Pt += phik[n]
+        # set new value
+        phim[m - beg] = Ps + Pt
     return beg, end, phim
 
 # number of spin configurations
@@ -56,6 +52,6 @@ def update(t):
 
 anim = FuncAnimation(fig, update, frames=lin, interval=50, repeat=False)
 # if you want to save as gif
-#anim.save('example.gif', dpi=130, writer='imagemagick')
+anim.save('multi.gif', dpi=100, writer='imagemagick')
 # if you want to watch it evolve live
-plt.show()
+#plt.show()
