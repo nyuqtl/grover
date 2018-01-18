@@ -15,23 +15,27 @@ N = 3
 def H(phik, beg, end, N, D, target) :
     phim = np.zeros(end - beg, np.complex64)
     for m in range(beg, end) :
+        E0 = 0.
+        E1 = 1.
         # source states Hadamard
         Ps = 0.
         if m == 0 :
-            Ps = 1./np.power(D, 2.0)
+            Ps = phik[0]
         Pt = 0.
         if m in target :
+            mbin = decimalToBinary(m, N)
             for n in range(0, D) :
-                Pt += phik[n]
-        # set new value
-        phim[m - beg] = Ps + Pt
+                nbin = decimalToBinary(n, N)
+                Pt += (phik[n]*np.power(-1., np.dot(nbin, mbin)))/np.sqrt(D)
+        phim[m - beg] = -1j*(E1*(Ps + Pt) + E0*(D - len(target)))
     return beg, end, phim
 
 # number of spin configurations
 D = 2**N
+M = len(target)
 
-runtime = np.sqrt(D)*np.pi
-runtimetitle = 'sqrt(D)*pi'
+runtime = np.sqrt(np.float64(M)/np.float64(D))*np.pi
+runtimetitle = 'sqrt(M/D)*pi'
 
 phiplus = np.zeros(2**N, np.complex64)
 phiplus[0] = 1.
@@ -52,6 +56,6 @@ def update(t):
 
 anim = FuncAnimation(fig, update, frames=lin, interval=50, repeat=False)
 # if you want to save as gif
-anim.save('multi.gif', dpi=100, writer='imagemagick')
+#anim.save('dissip1.gif', dpi=100, writer='imagemagick')
 # if you want to watch it evolve live
-#plt.show()
+plt.show()
