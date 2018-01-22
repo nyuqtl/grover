@@ -87,6 +87,9 @@ def plot(fig, ax, phi, N, title, lines, time, total) :
 
 def evaluate(phik, T, threads, N, D, target, hamiltonian) :
     phim = np.zeros(D, np.complex64)
+    if threads == 1 :
+        phim = hamiltonian(phik, 0, D, N, D, target)
+        return phim
     chunk = D / threads
     p = Pool(threads)
     results = []
