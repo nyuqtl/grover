@@ -13,23 +13,26 @@ N = 3
 
 # Hamiltonian
 def H(phik, beg, end, N, D, target) :
-    phim = np.zeros(end - beg, np.complex64)
-    for m in range(beg, end) :
-        phim[m - beg] = 0.
-        if m in target :
-            phim[m - beg] = -1j
+    phim = np.zeros(D, np.complex64)
+    for m in range(D) :
+        for n in range(D) :
+            s = 1./D
+            if m == n and n in target :
+                s += 1.
+            phim[n] += phik[m]*s
+    phim *= -1j
     return beg, end, phim
 
 # number of spin configurations
 D = 2**N
 M = len(target)
 
-runtime = (3./2.)*np.sqrt(np.float64(M)/np.float64(D))*np.pi
-runtimetitle = '3/2*sqrt(M/D)*pi'
+runtime = np.sqrt(np.float64(D)/np.float64(M))*np.pi
+runtimetitle = 'sqrt(D/M)*pi'
 
 phiplus = np.zeros(2**N, np.complex64)
 for i in range(D) :
-    phiplus[i] = 1./np.sqrt(D)
+    phiplus[i] = 1./D
 
 np.seterr(invalid='raise')
 
@@ -39,6 +42,7 @@ lines = plot(fig, ax, phiplus, N, '|psi>', [], 0.0, runtimetitle)
 lin, dt = np.linspace(0, runtime, 100, retstep=True)
 
 params = (threads, N, D, target, H)
+stepEvolution(phiplus, params, dt, RK4step)
 def update(t):
     global lines
     stepEvolution(phiplus, params, dt, RK4step)
