@@ -7,19 +7,19 @@ from solvers import RK4step, FEstep
 from qm import stepEvolution, decimalToBinary, plot
 from matplotlib.animation import FuncAnimation
 
-threads = 1
+threads = 2
 target = [2, 7]
 N = 3
 
 # Hamiltonian
 def H(phik, beg, end, N, D, target) :
-    phim = np.zeros(D, np.complex64)
+    phim = np.zeros(end - beg, np.complex64)
     for m in range(D) :
-        for n in range(D) :
+        for n in range(beg, end) :
             s = 1./D
             if m == n and n in target :
                 s += 1.
-            phim[n] += phik[m]*s
+            phim[n - beg] += phik[m]*s
     phim *= -1j
     return beg, end, phim
 
