@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import argparse
 
 from solvers import RK4step, FEstep
 from qm import stepEvolution, decimalToBinary, plot
@@ -42,7 +41,6 @@ lines = plot(fig, ax, phiplus, N, '|psi>', [], 0.0, runtimetitle)
 lin, dt = np.linspace(0, runtime, 100, retstep=True)
 
 params = (threads, N, D, target, H)
-stepEvolution(phiplus, params, dt, RK4step)
 def update(t):
     global lines
     stepEvolution(phiplus, params, dt, RK4step)
