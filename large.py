@@ -4,25 +4,15 @@ import matplotlib.pyplot as plt
 
 from solvers import RK4step
 from qm import stepEvolution, decimalToBinary
+from hamiltonians import Grover
 
 threads = 1
 target = [2, 7, 11, 22, 28, 31, 44, 51, 59, 63]
 N = 6
+H = Grover
 
 print 'N = ' + str(N)
 print 'target = ' + str(target)
-
-# Hamiltonian
-def H(phik, beg, end, N, D, target) :
-    phim = np.zeros(end - beg, np.complex64)
-    for m in range(D) :
-        for n in range(beg, end) :
-            s = 1./D
-            if m == n and n in target :
-                s += 1.
-            phim[n - beg] += phik[m]*s
-    phim *= -1j
-    return beg, end, phim
 
 # number of spin configurations
 D = 2**N

@@ -4,23 +4,13 @@ import matplotlib.pyplot as plt
 
 from solvers import RK4step, FEstep
 from qm import stepEvolution, decimalToBinary, plot
+from hamiltonians import Grover
 from matplotlib.animation import FuncAnimation
 
-threads = 2
-target = [2, 7]
+threads = 1
+target = [2, 4, 7]
 N = 3
-
-# Hamiltonian
-def H(phik, beg, end, N, D, target) :
-    phim = np.zeros(end - beg, np.complex64)
-    for m in range(D) :
-        for n in range(beg, end) :
-            s = 1./D
-            if m == n and n in target :
-                s += 1.
-            phim[n - beg] += phik[m]*s
-    phim *= -1j
-    return beg, end, phim
+H = Grover
 
 # number of spin configurations
 D = 2**N
@@ -49,6 +39,6 @@ def update(t):
 
 anim = FuncAnimation(fig, update, frames=lin, interval=50, repeat=False)
 # if you want to save as gif
-#anim.save('dissip1equalsuperpos.gif', dpi=100, writer='imagemagick')
+#anim.save('name.gif', dpi=100, writer='imagemagick')
 # if you want to watch it evolve live
 plt.show()
