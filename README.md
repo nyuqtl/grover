@@ -17,3 +17,26 @@ multiple target states
 * Easy to change Hamiltonian, simply write your own Hamiltonian evaluation function, example in [run.py](./run.py#L15-L32)
 * Possibility of running the simulation numerically with graph updated in real-time (no need to wait until entire simulation is done to generate animated plot)
 * Export animations to a file (requires `imagemagick`)
+
+## Test script
+
+We prepared a simple tool that allows to check if after `sqrt(D/M)*pi/2` time evolution reaches even superposition of only target states and after evolving for same time again if returns to initial state. Simply run [large.py](./large.py)
+
+Result should be
+
+```
+N = 6
+target = [2, 7, 11, 22, 28, 31, 44, 51, 59, 63]
+
+Performing time evolution to check if target states will get amplified
+(this might take a while)
+
+States in target space sufficiently close to 0.1, (0.1)
+
+States outside of target space sufficiently close to 0., (2.29956e-15)
+
+Performing another time evolution to check if system returns to equal superposition
+(this might take a while)
+
+After another time evolution states returned to even superposition
+```
